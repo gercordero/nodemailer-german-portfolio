@@ -34,10 +34,13 @@ router.post("/", (req, res) => {
   // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport(mailgun(auth));
 
+  //Email where the message is going to be send
+  const email = process.env.MAIL;
+
   // setup email data with unicode symbols
   const mailOptions = {
     from: '"German Portfolio" gcordero@meetgerman.com', // sender address
-    to: process.env.EMAIL, // list of receivers
+    to: email, // list of receivers
     subject: "Web portfolio contact request", // Subject line
     text: "", // plain text body
     html: output, // html body
@@ -48,7 +51,7 @@ router.post("/", (req, res) => {
     if (error) {
       res
         .status(400)
-        .json({ status: "There was a problem when trying to send the email!" })
+        .json({ status: "There was a problem when trying to send the email" })
         .send(error);
       return console.log(error);
     }
