@@ -37,7 +37,7 @@ router.post("/", (req, res) => {
   // setup email data with unicode symbols
   const mailOptions = {
     from: '"German Portfolio" gcordero@meetgerman.com', // sender address
-    to: "gerrcordero@gmail.com", // list of receivers
+    to: process.env.EMAIL, // list of receivers
     subject: "Web portfolio contact request", // Subject line
     text: "", // plain text body
     html: output, // html body
@@ -48,12 +48,11 @@ router.post("/", (req, res) => {
     if (error) {
       res
         .status(400)
-        .json({ status: "There was a problem when trying to send the email" })
+        .json({ status: "There was a problem when trying to send the email!" })
         .send(error);
       return console.log(error);
     }
-    console.log("Message sent: %s", info.messageId);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    console.log("Message sent!");
 
     res.status(200).json({ status: "Message sent!" });
   });
